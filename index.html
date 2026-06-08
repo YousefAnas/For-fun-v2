@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>For Fun 💖</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    height:100vh;
+    overflow:hidden;
+    background:#fff5f8;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+
+/* Hearts */
+.heart{
+    position:fixed;
+    z-index:0;
+    pointer-events:none;
+    user-select:none;
+    opacity:.7;
+    animation:float linear infinite;
+}
+
+@keyframes float{
+    from{
+        transform:translateY(110vh);
+        opacity:0;
+    }
+    15%{
+        opacity:1;
+    }
+    85%{
+        opacity:1;
+    }
+    to{
+        transform:translateY(-120vh);
+        opacity:0;
+    }
+}
+
+/* Card */
+.card{
+    width:min(760px, 92vw);
+    padding:60px 56px;
+    background:#ffd6e7;
+    border:3px solid #ff9ac6;
+    border-radius:40px;
+    box-shadow:0 20px 50px rgba(255,105,180,.15);
+    text-align:center;
+    position:relative;
+    z-index:2;
+    transition:opacity .7s ease, transform .7s ease;
+}
+
+.card.fade-out{
+    opacity:0;
+    transform:scale(.96);
+    pointer-events:none;
+}
+
+.card h1{
+    color:#ff4f9a;
+    font-size:clamp(2.2rem, 4vw, 3.4rem);
+    margin-bottom:40px;
+    line-height:1.15;
+}
+
+.buttons{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:22px;
+    position:relative;
+    min-height:72px;
+    overflow:visible;
+    flex-wrap:wrap;
+}
+
+button{
+    border:none;
+    border-radius:15px;
+    padding:16px 36px;
+    font-size:1.08rem;
+    font-weight:700;
+    cursor:pointer;
+    white-space:nowrap;
+}
+
+#pass{
+    background:#4CAF50;
+    color:white;
+    transition:transform .18s ease;
+    z-index:3;
+}
+
+#pass:hover{
+    transform:scale(1.05);
+}
+
+#notgood{
+    background:#ff5252;
+    color:white;
+    position:relative;
+    z-index:4;
+    transform:translate(0,0);
+    will-change:transform;
+}
+
+/* Mobile */
+@media(max-width:600px){
+    .card{
+        padding:35px 20px;
+    }
+
+    .buttons{
+        gap:12px;
+    }
+
+    button{
+        padding:14px 24px;
+        font-size:1rem;
+    }
+}
+
+/* Success overlay */
+#successOverlay{
+    position:fixed;
+    inset:0;
+    display:none;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    background:#fff5f8;
+    text-align:center;
+    padding:20px;
+    overflow:hidden;
+    z-index:20;
+}
+
+#successOverlay.show{
+    display:flex;
+}
+
+#successOverlay h1{
+    color:#ff4f9a;
+    font-size:clamp(2.4rem, 5vw, 4.3rem);
+    margin-bottom:18px;
+    line-height:1.15;
+}
+
+#successOverlay p{
+    font-size:clamp(1.2rem, 2.2vw, 2rem);
+    color:#666;
+}
+
+#confetti{
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    z-index:1;
+}
+
+/* Desktop only screen */
+#desktopOnly{
+    position:fixed;
+    inset:0;
+    display:none;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:30px;
+    background:#fff5f8;
+    z-index:99999;
+}
+
+#desktopOnly h1{
+    color:#ff4f9a;
+    font-size:clamp(2rem,5vw,4rem);
+    margin-bottom:14px;
+    line-height:1.15;
+}
+
+#desktopOnly p{
+    color:#666;
+    font-size:clamp(1.1rem,2.2vw,1.8rem);
+}
+</style>
+</head>
+<body>
+
+
+    
+
+    <div id="loginScreen" style="
+position:fixed;
+inset:0;
+background:#fff5f8;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+z-index:999999;
+">
+    <h1 style="color:#ff4f9a;margin-bottom:20px;">
+        💖 Enter Password 💖
+    </h1>
+
+    <input
+        id="passwordInput"
+        type="password"
+        placeholder="Password"
+        style="
+        padding:12px;
+        border-radius:12px;
+        border:1px solid #ccc;
+        width:260px;
+        margin-bottom:12px;
+        "
+    >
+
+    <button id="unlockBtn">Unlock ❤️</button>
+
+    <p id="errorText" style="color:#ff5252;margin-top:10px;"></p>
+</div>
+
+
+
+
+<img
+    src="https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fyousefanas.github.io%2FFor-fun%2F&countColor=%23263759"
+    alt=""
+    aria-hidden="true"
+    style="position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;opacity:0;pointer-events:none;"
+>
+
+<div id="desktopOnly">
+    <div>
+        <h1>💖 This little surprise is made for PC only 💖</h1>
+        <p>Open me on a computer ❤️</p>
+    </div>
+</div>
+
+<div class="card" id="mainCard">
+    <h1>💖 What did u do? 🥺</h1>
+
+    <div class="buttons">
+        <button id="pass">💚 Pass</button>
+        <button id="notgood">❌ Not Good</button>
+    </div>
+</div>
+
+<div id="successOverlay">
+    <div id="confetti"></div>
+    <h1>👑 I know a queen can pass anything 👑</h1>
+    <p>❤️ You're amazing ❤️</p>
+</div>
+
+<audio id="successSound" preload="auto">
+    <source src="success.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+/* Mobile / desktop check */
+const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile/i.test(navigator.userAgent);
+
+if (isMobile) {
+    document.getElementById("desktopOnly").style.display = "flex";
+    document.getElementById("mainCard").style.display = "none";
+} else {
+    /* PASS BUTTON */
+    const card = document.getElementById("mainCard");
+    const successOverlay = document.getElementById("successOverlay");
+    const successSound = document.getElementById("successSound");
+
+    document.getElementById("pass").addEventListener("click", () => {
+        successSound.currentTime = 0;
+        successSound.play().catch(() => {});
+
+        card.classList.add("fade-out");
+
+        setTimeout(() => {
+            successOverlay.classList.add("show");
+
+            const colors = ["#ff4f9a", "#4CAF50", "#ffd166", "#ff6b6b", "#9b5de5"];
+
+            const style = document.createElement("style");
+            style.textContent = `
+                @keyframes fall {
+                    to {
+                        transform: translateY(110vh) rotate(720deg);
+                        opacity: 0;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+
+            const confetti = document.getElementById("confetti");
+
+            for(let i = 0; i < 120; i++){
+                const piece = document.createElement("div");
+                piece.style.position = "absolute";
+                piece.style.left = Math.random() * 100 + "vw";
+                piece.style.top = "-20px";
+                piece.style.width = "10px";
+                piece.style.height = "16px";
+                piece.style.borderRadius = "3px";
+                piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+                piece.style.animation = `fall ${2 + Math.random() * 2}s linear forwards`;
+                piece.style.transform = `rotate(${Math.random() * 360}deg)`;
+                confetti.appendChild(piece);
+            }
+        }, 500);
+    });
+
+    /* DODGE BUTTON */
+    const badBtn = document.getElementById("notgood");
+
+    window.mouseX = -9999;
+    window.mouseY = -9999;
+    let tx = 0;
+    let ty = 0;
+    let vx = 0;
+    let vy = 0;
+
+    window.dodgeEnabled = false;
+
+    document.addEventListener("mousemove", (e) => {
+        window.mouseX = e.clientX;
+        window.mouseY = e.clientY;
+    });
+
+    function keepInBounds(rect) {
+        const margin = 14;
+
+        if (rect.left < margin) {
+            tx += margin - rect.left;
+            vx *= -0.35;
+        }
+        if (rect.top < margin) {
+            ty += margin - rect.top;
+            vy *= -0.35;
+        }
+        if (rect.right > window.innerWidth - margin) {
+            tx -= rect.right - (window.innerWidth - margin);
+            vx *= -0.35;
+        }
+        if (rect.bottom > window.innerHeight - margin) {
+            ty -= rect.bottom - (window.innerHeight - margin);
+            vy *= -0.35;
+        }
+    }
+
+    function animateDodge() {
+
+        if (!window.dodgeEnabled) {
+    requestAnimationFrame(animateDodge);
+    return;
+        }
+
+
+        const rect = badBtn.getBoundingClientRect();
+
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+
+        const dx = centerX - window.mouseX;
+        const dy = centerY - window.mouseY;
+        const distance = Math.hypot(dx, dy);
+
+        const dangerZone = 92;
+
+        if (distance < dangerZone) {
+            const angle = Math.atan2(dy, dx);
+            const pressure = (dangerZone - distance) / dangerZone;
+
+            vx += Math.cos(angle) * (1.1 + pressure * 2.2);
+            vy += Math.sin(angle) * (1.1 + pressure * 2.2);
+        } else {
+            vx *= 0.90;
+            vy *= 0.90;
+        }
+
+        tx += vx;
+        ty += vy;
+
+        keepInBounds(rect);
+
+        badBtn.style.transform = `translate(${tx}px, ${ty}px)`;
+
+
+        requestAnimationFrame(animateDodge);
+    }
+
+    requestAnimationFrame(animateDodge);
+
+    /* MOBILE TAP DODGE */
+    badBtn.addEventListener("touchstart", (e) => {
+        e.preventDefault();
+        tx += (Math.random() - 0.5) * 300;
+        ty += (Math.random() - 0.5) * 300;
+        badBtn.style.transform = `translate(${tx}px, ${ty}px)`;
+    }, { passive:false });
+
+    /* HEARTS */
+    for (let i = 0; i < 18; i++) {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerHTML = Math.random() > 0.5 ? "❤️" : "💖";
+
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.top = Math.random() * 100 + "vh";
+        heart.style.fontSize = (16 + Math.random() * 12) + "px";
+        heart.style.animationDuration = (12 + Math.random() * 8) + "s";
+        heart.style.animationDelay = (-Math.random() * 20) + "s";
+
+        document.body.appendChild(heart);
+    }
+}
+</script>
+
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+
+import {
+    getFirestore,
+    doc,
+    getDoc,
+    updateDoc
+}
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDaU9v1oRXG2ZvG6HtqxAYC2SjhiOewyIo",
+  authDomain: "for-fun-feead.firebaseapp.com",
+  projectId: "for-fun-feead",
+  storageBucket: "for-fun-feead.firebasestorage.app",
+  messagingSenderId: "186463176166",
+  appId: "1:186463176166:web:9521c72222dee0ecd1c227"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const loginScreen =
+document.getElementById("loginScreen");
+
+const unlockBtn =
+document.getElementById("unlockBtn");
+
+const passwordInput =
+document.getElementById("passwordInput");
+
+const errorText =
+document.getElementById("errorText");
+
+unlockBtn.addEventListener("click", async () => {
+
+    const pass = passwordInput.value.trim();
+
+    if(pass === "Jack_1290"){
+        window.mouseX = -9999;
+        window.mouseY = -9999;
+        window.dodgeEnabled = true;
+
+        loginScreen.style.display = "none";
+
+        return;
+            
+    }
+
+    if(pass === "Yara"){
+
+        const isMobile =
+        /Android|iPhone|iPad|iPod|Opera Mini|IEMobile/i
+        .test(navigator.userAgent);
+
+        if(isMobile){
+            errorText.textContent =
+            "Open on a computer ❤️";
+            return;
+        }
+
+        const ref =
+        doc(db,"siteState","guestAccess");
+
+        const snap =
+        await getDoc(ref);
+
+        const data =
+        snap.data();
+
+        if(data.used){
+            errorText.textContent =
+            "This password was already used ❤️";
+            return;
+        }
+
+        await updateDoc(ref,{
+            used:true,
+            usedBy:"Yara",
+            usedAt:new Date().toLocaleString()
+        });
+
+        window.mouseX = -9999;
+        window.mouseY = -9999;
+        window.dodgeEnabled = true;
+
+        loginScreen.style.display = "none";
+
+        return;
+        }
+
+    errorText.textContent =
+    "Wrong password ❤️";
+});
+
+passwordInput.addEventListener("keydown",(e)=>{
+    if(e.key==="Enter"){
+        unlockBtn.click();
+    }
+});
+
+</script>
+
+
+</body>
+</html>
