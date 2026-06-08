@@ -284,7 +284,8 @@ if (isMobile) {
     const successOverlay = document.getElementById("successOverlay");
     const successSound = document.getElementById("successSound");
 
-    document.getElementById("pass").addEventListener("click", () => {
+    document.getElementById("pass").addEventListener("click", async () => {
+
         successSound.currentTime = 0;
         successSound.play().catch(() => {});
 
@@ -336,6 +337,8 @@ if (isMobile) {
 
     window.dodgeEnabled = false;
 
+    window.attemptCounter = 0;
+
     document.addEventListener("mousemove", (e) => {
         window.mouseX = e.clientX;
         window.mouseY = e.clientY;
@@ -382,6 +385,8 @@ if (isMobile) {
         const dangerZone = 92;
 
         if (distance < dangerZone) {
+
+            window.attemptCounter++;
             const angle = Math.atan2(dy, dx);
             const pressure = (dangerZone - distance) / dangerZone;
 
@@ -440,7 +445,8 @@ import {
     getFirestore,
     doc,
     getDoc,
-    updateDoc
+    updateDoc,
+    increment
 }
 from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
@@ -455,6 +461,31 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+
+const analyticsRef =
+doc(db,"analytics","visitor");
+
+document.getElementById("pass").addEventListener("click", () => {
+
+    updateDoc(analyticsRef,{
+        passClicked: increment(1)
+    }).catch(()=>{});
+
+});
+
+setInterval(() => {
+
+    if(window.attemptCounter > 0){
+
+        updateDoc(analyticsRef,{
+            notGoodAttempts:
+            increment(window.attemptCounter)
+        }).catch(()=>{});
+
+        window.attemptCounter = 0;
+    }
+
+},5000);
 
 const loginScreen =
 document.getElementById("loginScreen");
